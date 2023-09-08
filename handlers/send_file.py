@@ -17,7 +17,7 @@ async def reply_forward(message: Message, file_id: int):
             disable_web_page_preview=True,
             quote=True
         )
-        await asyncio.sleep(10)
+        await asyncio.sleep(300)
         await r.delete()
     except FloodWait as e:
         await asyncio.sleep(e.x)
