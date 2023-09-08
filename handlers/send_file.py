@@ -12,12 +12,13 @@ from handlers.helpers import str_to_b64
 
 async def reply_forward(message: Message, file_id: int):
     try:
-        await message.reply_text(
+        r =await message.reply_text(
             f"**Files will be Deleted After 10 min ⏰.Please forward and save them**.",
             disable_web_page_preview=True,
             quote=True
         )
         await asyncio.sleep(10)
+        await r.delete()
     except FloodWait as e:
         await asyncio.sleep(e.x)
         await reply_forward(message, file_id)
