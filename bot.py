@@ -2,6 +2,8 @@
 
 import os
 import asyncio
+from aiohttp import web
+from handlers import web_server
 import traceback
 from binascii import (
     Error
