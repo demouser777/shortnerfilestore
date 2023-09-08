@@ -4,8 +4,12 @@ motor
 aiofiles
 dnspython
 psutil
-render
+aiofiles
+dnspython
+psutil
 requests
+aiohttp==3.7.4.post0
+beautifulsoup4==4.9.3 
 Flask==2.2.2
 gunicorn==20.1.0
 aiohttp==3.8.2
