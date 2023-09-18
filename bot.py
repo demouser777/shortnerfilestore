@@ -321,7 +321,7 @@ async def button(bot: Client, cmd: CallbackQuery):
                 [
                     [
                         InlineKeyboardButton("Backup Channel",
-                                             url="https://t.me/+zxxliPS_01ZkZTc9")
+                                             url="https://t.me/sdmoviesflixofficial")
                     ],
                     [
                         InlineKeyboardButton("Go Home", callback_data="gotohome"),
@@ -471,4 +471,3 @@ async def button(bot: Client, cmd: CallbackQuery):
 
 
 Bot.run()
-
