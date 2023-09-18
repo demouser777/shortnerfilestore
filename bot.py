@@ -81,7 +81,7 @@ async def start(bot: Client, cmd: Message):
                     [
                         InlineKeyboardButton("About Bot", callback_data="aboutbot"),
                         InlineKeyboardButton("About Dev", callback_data="aboutdevs"),
-                        InlineKeyboardButton("Close ðŸšª", callback_data="closeMessage")
+                        InlineKeyboardButton("Close ❌", callback_data="closeMessage")
                     ],
                     [
                         InlineKeyboardButton("Bots Channel", url="https://t.me/SDMOVIESFLIXNEW"),
@@ -339,7 +339,7 @@ async def button(bot: Client, cmd: CallbackQuery):
                 [
                     [
                         InlineKeyboardButton("Backup Channel",
-                                             url="https://t.me/+zxxliPS_01ZkZTc9")
+                                             url="https://t.me/sdmoviesflixofficial")
                     ],
                     [
                         InlineKeyboardButton("About Bot", callback_data="aboutbot"),
@@ -361,7 +361,7 @@ async def button(bot: Client, cmd: CallbackQuery):
                     [
                         InlineKeyboardButton("About Bot", callback_data="aboutbot"),
                         InlineKeyboardButton("About Dev", callback_data="aboutdevs"),
-                        InlineKeyboardButton("Close ðŸšª", callback_data="closeMessage")
+                        InlineKeyboardButton("Close ❌", callback_data="closeMessage")
                     ],
                     [
                         InlineKeyboardButton("Movie Group", url="https://t.me/+zxxliPS_01ZkZTc9"),
@@ -471,3 +471,4 @@ async def button(bot: Client, cmd: CallbackQuery):
 
 
 Bot.run()
+ 
