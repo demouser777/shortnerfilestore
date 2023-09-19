@@ -17,11 +17,11 @@ async def reply_forward(message: Message, file_id: int):
             disable_web_page_preview=True,
             quote=True
         )
+        await asyncio.sleep(200)
+        await r.delete()
     except FloodWait as e:
         await asyncio.sleep(e.x)
         await reply_forward(message, file_id)
-        await asyncio.sleep(250)
-        await r.delete()
 
 async def media_forward(bot: Client, user_id: int, file_id: int):
     try:
