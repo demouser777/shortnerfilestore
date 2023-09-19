@@ -19,6 +19,7 @@ async def reply_forward(message: Message, file_id: int):
         )
         await asyncio.sleep(3)
         await r.delete()
+        
     except FloodWait as e:
         await asyncio.sleep(e.x)
         await reply_forward(message, file_id)
