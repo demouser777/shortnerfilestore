@@ -470,6 +470,16 @@ async def button(bot: Client, cmd: CallbackQuery):
         await cmd.answer()
     except QueryIdInvalid: pass
 
+if ON_HEROKU:
+        asyncio.create_task(ping_server())
+    me = await Bot.get_me()
+    Bot.username = '@' + me.username
+    app = web.AppRunner(await web_server())
+    await app.setup()
+    bind_address = "0.0.0.0" if ON_HEROKU else BIND_ADRESS
+    await web.TCPSite(app, bind_address, PORT).start()
+    await idle()
+
 
 Bot.run()
  
