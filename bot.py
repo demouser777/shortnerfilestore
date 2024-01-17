@@ -59,17 +59,28 @@ from pyrogram.enums import ParseMode
 import sys
 
 MediaList = {}
+Bot.start()
+loop = asyncio.get_event_loop()
+
 PORT = "8080"
 
-Bot = Client(
-    name=Config.BOT_USERNAME,
-    in_memory=True,
-    bot_token=Config.BOT_TOKEN,
-    api_id=Config.API_ID,
-    api_hash=Config.API_HASH
-)
+async def Lazy_start():
+    print('\n')
+    print(' Initalizing clients ')
+    await initialize_clients()
+    try:
+        db_channel = await Bot.get_chat(Config.DB_CHANNEL)
+        Bot.db_channel = db_channel
+        test = await Bot.send_message(chat_id=db_channel.id, text="TEST")
+        await test.delete()
+        print("Bot is admin in db channel")
 
-
+    except Exception as e:
+        # Handle the exception, log it, and optionally take other actions
+        print(e)  # Print the error for debugging
+        print(f"Make Sure bot is Admin in DB Channel, and Double check the CHANNEL_ID Value, Current Value {CHANNEL_ID}")
+        print("\nBot Stopped bYE")
+        sys.exit()
 @Bot.on_message(filters.private)
 async def _(bot: Client, cmd: Message):
     await handle_user_status(bot, cmd)
