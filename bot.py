@@ -25,6 +25,7 @@ from pyrogram.types import (
     Message
 )
 from configs import Config
+from configs import *
 from handlers.database import db
 from handlers.add_user_to_db import add_user_to_database
 from handlers.send_file import send_media_and_reply
@@ -39,6 +40,23 @@ from handlers.save_media import (
     save_media_in_channel,
     save_batch_media_in_channel
 )
+from util.human_readable import humanbytes
+from urllib.parse import quote_plus
+from util.file_properties import get_name, get_hash, get_media_file_size
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.ERROR)
+from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
+from handlers.send_file import media_forward
+from pyrogram import idle
+from lazybot import Bot
+from util.keepalive import ping_server
+from lazybot.clients import initialize_clients
+from aiohttp import web
+from handlers import web_server
+from pyrogram import Client, __version__
+from handlers.helpers import  decode, get_messages
+from pyrogram.enums import ParseMode
+import sys
 
 MediaList = {}
 PORT = "8080"
@@ -438,6 +456,43 @@ async def button(bot: Client, cmd: CallbackQuery):
             await cmd.answer("User Banned from Updates Channel!", show_alert=True)
         except Exception as e:
             await cmd.answer(f"Can't Ban Him!\n\nError: {e}", show_alert=True)
+
+    elif cb_data.startswith("generate_stream_link"):
+            _, file_id = cb_data.split(":")
+            try:
+                user_id = cmd.from_user.id
+                username =  cmd.from_user.mention
+
+                lazy_file = await media_forward(bot, user_id=STREAM_LOGS, file_id=file_id)
+ 
+                
+                fileName = {quote_plus(get_name(lazy_file))}
+                lazy_stream = f"{URL}watch/{str(lazy_file.id)}/{quote_plus(get_name(lazy_file))}?hash={get_hash(lazy_file)}"
+                lazy_download = f"{URL}{str(lazy_file.id)}/{quote_plus(get_name(lazy_file))}?hash={get_hash(lazy_file)}"
+
+                xo = await cmd.message.reply_text(f'🔐')
+                await asyncio.sleep(1)
+                await xo.delete()
+
+                await lazy_file.reply_text(
+                    text=f"•• ʟɪɴᴋ ɢᴇɴᴇʀᴀᴛᴇᴅ ꜰᴏʀ ɪᴅ #{user_id} \n•• ᴜꜱᴇʀɴᴀᴍᴇ : {username} \n\n•• ᖴᎥᒪᗴ Nᗩᗰᗴ : {fileName}",
+                    quote=True,
+                    disable_web_page_preview=True,
+                    reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("web Download", url=lazy_download),  # we download Link
+                                                        InlineKeyboardButton('▶Stream online', url=lazy_stream)]])  # web stream Link
+                )
+                await cmd.message.edit(
+                    text="•• ʟɪɴᴋ ɢᴇɴᴇʀᴀᴛᴇᴅ ☠︎⚔",
+                    quote=True,
+                    disable_web_page_preview=True,
+                    reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("web Download", url=lazy_download),  # we download Link
+                                                        InlineKeyboardButton('▶Stream online', url=lazy_stream)]])  # web stream Link
+                )
+            except Exception as e:
+                print(e)  # print the error message
+                await cmd.answer(f"☣something went wrong sweetheart\n\n{e}", show_alert=True)
+                return
+        
 
     elif "addToBatchTrue" in cb_data:
         if MediaList.get(f"{str(cmd.from_user.id)}", None) is None:
